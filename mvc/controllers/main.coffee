@@ -7,8 +7,7 @@ module.exports.controller = (router) ->
 
   # Show jobs
   router.get '/', (ctx) ->
-    Job.find (err, jobs) ->
-      ctx.render('home', jobs: jobs)
+    ctx.render('home', jobs: ctx.redditJobs)
 
   # Create new job
   router.post '/job', (ctx) ->
