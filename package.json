@@ -4,7 +4,7 @@
   "description": "",
   "main": "app.coffee",
   "scripts": {
-    "serve": "coffee app.coffee",
+    "start": "coffee app.coffee",
     "dev": "nodemon app.coffee mvc/**/*",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
