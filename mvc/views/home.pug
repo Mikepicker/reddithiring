@@ -1,15 +1,29 @@
 doctype html
 html
   head
+
+    script(async src="https://www.googletagmanager.com/gtag/js?id=UA-108347739-1")
+
+    script.
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+      gtag('config', 'UA-108347739-1');
+
     link(rel='stylesheet', href='tether/tether.min.css')
     link(rel='stylesheet', href='bootstrap/bootstrap.min.css')
+    link(rel='stylesheet', href='font-awesome-4.7.0/css/font-awesome.min.css')
+    link(rel='stylesheet', href='css/main.css')
     title Jobs Post
   body
     div.my-5
-      h1.text-center RedditJobs
-      p.text-center A curated list of freelance jobs
+      h1.text-center RedditHiring
+      p.text-center A curated list of freelance jobs from Reddit
+      a(href='https://github.com/Mikepicker/reddithiring').text-center
+        i.fa.fa-github.github
     div.container
       each job in jobs
+        div.row
         p
           a(href=job.url)
             strong= job.title
@@ -20,5 +34,3 @@ html
     script(src='tether/tether.min.js')
     script(src='jquery/jquery-3.2.1.min.js')
     script(src='bootstrap/bootstrap.min.js')
-
-    script(src='js/script.js')

@@ -68,3 +68,16 @@ module.exports.middlewares =
 
     ctx.redditJobs = ctx.redditJobs.concat jobs
     next()
+
+  Jobbit: (ctx, next) ->
+    jobs = []
+    await request 'http://www.reddit.com/r/jobbit/search/.json?q=(title:"[hiring]"+OR+flair:Hiring)&sort=new&restrict_sr=on&t=month', (err, res, body) ->
+      body = JSON.parse(body);
+      for post in body.data.children
+        jobs.push
+          title: post.data.title
+          url: 'https://reddit.com/' + post.data.permalink
+          source: 'reddit/r/jobbit'
+
+    ctx.redditJobs = ctx.redditJobs.concat jobs
+    next()
