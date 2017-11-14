@@ -1,5 +1,9 @@
 request = require 'request-promise'
 
+formatDate = (utc) ->
+    d = new Date(utc*1000);
+    return (d.getMonth() + 1) + '/' + d.getDate() + '/' + d.getFullYear()
+
 module.exports.middlewares =
 
   # Reddit
@@ -12,6 +16,7 @@ module.exports.middlewares =
           title: post.data.title
           url: 'https://reddit.com/' + post.data.permalink
           source: 'reddit/r/forhire'
+          date: formatDate(post.data.created_utc) 
 
     ctx.redditJobs = jobs
     next()
@@ -25,6 +30,7 @@ module.exports.middlewares =
           title: post.data.title
           url: 'https://reddit.com/' + post.data.permalink
           source: 'reddit/r/Jobs4Bitcoins'
+          date: formatDate(post.data.created_utc) 
 
     ctx.redditJobs = ctx.redditJobs.concat jobs
     next()
@@ -38,6 +44,7 @@ module.exports.middlewares =
           title: post.data.title
           url: 'https://reddit.com/' + post.data.permalink
           source: 'reddit/r/Jobs4Crypto'
+          date: formatDate(post.data.created_utc) 
 
     ctx.redditJobs = ctx.redditJobs.concat jobs
     next()
@@ -52,6 +59,7 @@ module.exports.middlewares =
           title: post.data.title
           url: 'https://reddit.com/' + post.data.permalink
           source: 'reddit/r/BitcoinJobs'
+          date: formatDate(post.data.created_utc) 
 
     ctx.redditJobs = ctx.redditJobs.concat jobs
     next()
@@ -65,6 +73,7 @@ module.exports.middlewares =
           title: post.data.title
           url: 'https://reddit.com/' + post.data.permalink
           source: 'reddit/r/ProgrammingRequests'
+          date: formatDate(post.data.created_utc) 
 
     ctx.redditJobs = ctx.redditJobs.concat jobs
     next()
@@ -78,6 +87,22 @@ module.exports.middlewares =
           title: post.data.title
           url: 'https://reddit.com/' + post.data.permalink
           source: 'reddit/r/jobbit'
+          date: formatDate(post.data.created_utc) 
 
     ctx.redditJobs = ctx.redditJobs.concat jobs
     next()
+
+  DesignJobs: (ctx, next) ->
+    jobs = []
+    await request 'http://www.reddit.com/r/designjobs/search/.json?q=(title:"[hiring]"+OR+flair:Hiring)&sort=new&restrict_sr=on&t=month', (err, res, body) ->
+      body = JSON.parse(body);
+      for post in body.data.children
+        jobs.push
+          title: post.data.title
+          url: 'https://reddit.com/' + post.data.permalink
+          source: 'reddit/r/designjobs'
+          date: formatDate(post.data.created_utc) 
+
+    ctx.redditJobs = ctx.redditJobs.concat jobs
+    next()
+

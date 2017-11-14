@@ -15,6 +15,7 @@ module.exports.controller = (router) ->
       title: ctx.request.body.title
       url: ctx.request.body.url
       source: ctx.request.body.source
+      date: ctx.request.body.date
 
     await job.save (err) ->
       console.log err if err
